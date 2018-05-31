@@ -2,19 +2,17 @@ import java.util.Scanner;
 
 public class Interact
 {
-  // Interact class interacts with the user
   public static String promptString(String message, String[] options)
   {
     // Declare variables to be used
+    String input = "";
     Boolean isValid;
-    String input;
-    Scanner scan;
 
     // Format option (use when returning all options to user)
     String[] mutOptions = new String[options.length];
     for(int i = 0; i < options.length; i++)
     {
-      mutOptions[i] = "(" + options[i] + ")";
+      mutOptions[i] = "[" + options[i] + "]";
     }
 
     // Ouput prompt for the input
@@ -25,8 +23,8 @@ public class Interact
     while (!isValid)
     {
       // Setting up scanner
-      scan = new Scanner(System.in);
-      input = scan.nextLine;
+      Scanner scan = new Scanner(System.in);
+      input = scan.nextLine();
 
       // Is the input an option?
       for(int i = 0 ; i < options.length; i++)
@@ -67,7 +65,7 @@ public class Interact
             }
             else if(i + 1 == mutOptions.length - 1)
             {
-              System.out.println(mutOptions[i] + ", and ");
+              System.out.print(mutOptions[i] + ", and ");
             }
             else if(i + 1 == mutOptions.length)
             {
@@ -77,7 +75,41 @@ public class Interact
         }
       }
     }
-    scan.close();
+    //scan.close();
     return input;
   }
+
+  // Tests if input contains any number of invalid characters. If so, return the array of all invalid characters includedd. Invalid characters could be invalid string literals
+  private static String[] filterInvalidLiteral(String input, String[] pInvalidLiterals)
+  {
+
+  }
+
+  // This method overloads the other promtString method with a String and String[] parameter. Here, any string is correct, but numbers, symbols, etc. will be filtered
+  public static String promptString(String message)
+  {
+    // Create variables
+    Scanner scan;
+    String input;
+    Boolean isValid;
+
+    System.out.println(message);
+
+    // Is the input valid?
+    isValid = false;
+    while(!isValid)
+    {
+      // Is the input valid?
+      scan = new Scanner(System.in);
+      input = scan.nextLine();
+
+      String[] invalidLiterals = filterInvalidLiteral(input, new String[]{"`", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "=", "~", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "_", "+",});
+      // If input does not include invalid characters, then it is valid
+      if(filterInvalidLiteral(input, invalidLiterals) == null)
+      {
+        isValid = true;
+      }
+    }
+  }
+
 }
