@@ -1,6 +1,7 @@
 package src;
 public class Control {
   public static void main(String[] args) {
+    System.out.print("\n\n");
     System.out.println("Welcome to the word-finder Java program! This program serves two purposes. It returns an array of words related to an inputed word or string. Also, users can enter in a word, and guess the possible relationships to that word. The specific relationship is defined by the user on launch of the program. The former serves the utility function. the latter serves the game function.");
     // Ask if the user wants to play the game or utilize the utility
 
@@ -14,28 +15,28 @@ public class Control {
     {
       // Filtertype returns the
       String primaryFilterInput = "";
-      primaryFilterInput = Interact.promptReply("Which word search tool would you like to utilitze? This can only be chosen once per run of the program. (less // equal // greater) \n"
-      + "Less: Find words that contain contain some of the characters (and number of each character) of the inputed string \n "
-      + "Ex. I: /'apple/' -> O: [/'app/', /'pal/'] (NOT /'pans/' because no /'s/' in /'apple/')\n \n"
+      primaryFilterInput = Interact.promptReply("\nWhich word search tool would you like to utilitze? This can only be chosen once per run of the program. (less / equal / greater) \n"
+      + "[Less]: Find words that contain only the characters of the inputed string (similar to finding words from tiles in a multiplayer crossword game)\n"
+      + "Ex. 'apple' -> ['app', 'pal'] (NOT 'pans' because no 's' in 'apple')\n \n"
 
-      + "Equal: Find words that contain exactly the characters (and the number of each character) of the inputed string \n"
-      + "Ex. I: /'apple/' -> O: [/'appel/'] \n \n"
+      + "[Equal]: Find words that contain the exact same characters as the inputed string\n"
+      + "Ex. 'apple' -> ['appel'] \n \n"
 
-      + "Greater: Find words that contain all the characters (and number of each character) of the inputed string \n"
-      + "Ex. I: /'apple/' -> O: [/'applesause/', /'apples/'] \n \n "
-      , new String[]{"less, equal, greater"});
+      + "[Greater]: Find words longer than the inputed string that contain all the characters of the inputed string\n"
+      + "Ex. 'apple' -> ['applesause', 'apples']"
+      , new String[]{"less", "equal", "greater"});
 
       if(primaryFilterInput.equalsIgnoreCase("less"))
       {
-
+        System.out.println("You chose less");
       }
       else if(primaryFilterInput.equalsIgnoreCase("equal"))
       {
-
+        System.out.println("You chose equal");
       }
       else if(primaryFilterInput.equalsIgnoreCase("greater"))
       {
-
+        System.out.println("You chose greater");
       }
       else
       {

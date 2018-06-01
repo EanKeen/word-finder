@@ -48,7 +48,7 @@ public class Interact
       // If input not valid, tell user
       if(isValid == false)
       {
-        System.out.println("Input not valid. Choose one of the following: ");
+        System.out.println("\nInput not valid. Choose one of the following: ");
         Interact.outputArrayEnglish(mutOptions, new ArrayList<String>());
       }
     }
