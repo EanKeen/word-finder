@@ -8,7 +8,7 @@ public class Interact
   // Creating key variables
   static String[] notAlphabetCharacters = new String[] {"`", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "=", "~", "!", "@",
                                                  "#", "$", "%", "^", "&", "*", "(", ")", "_", "+", "{", "}", "[", "]", ";", ":",
-                                                 "\'", "\"", ",", ".", "<", ">", "?", "/", "\\", "|"};
+                                                 "\'", "\"", ",", ".", "<", ">", "?", "/", "\\", "|", " "};
 
   // User chooses a pre-selected option
   public static String promptReply(String message, String[] options)
@@ -53,15 +53,16 @@ public class Interact
       }
     }
     //scan.close();
+    System.out.println("You chose [" + input + "]");
     return input;
   }
 
   // User inputs any option / parameter that is made of words in alphabet
-  public static void promptReply(String message)
+  public static String promptReply(String message)
   {
     // Create variables
     Scanner scan;
-    String input;
+    String input = "";
     Boolean isValid;
 
     System.out.println(message);
@@ -74,23 +75,28 @@ public class Interact
       scan = new Scanner(System.in);
       input = scan.nextLine();
 
-      // Creates array of all invalidLiterals that exist in the user-inputed string
+      // Creates array of all invalidLiterals that exist in the user-inputed string (invalid characters determined by notAlphabetCharacters array at the top of this class)
       ArrayList<String> symbolsDetected = Interact.detectInvalidLiteral(input, notAlphabetCharacters);
 
+      for(int i = 0; i < symbolsDetected.size(); i++)
+      {
+        symbolsDetected.set(i, "'" + symbolsDetected.get(i) + "'");
+      }
       // If input does not include invalid characters, then it is valid
-      if(symbolsDetected == null)
+      if(symbolsDetected.size() == 0)
       {
         isValid = true;
+        System.out.println("You entered [" + input + "]");
       }
-      else if(symbolsDetected != null)
+      else if(symbolsDetected.size() != 0)
       {
+        System.out.println("\nInput not valid. Remove the following characters:");
+        outputArrayEnglish(new String[]{}, symbolsDetected);
+
         // String is not valid, must prompt for input again
       }
-      else
-      {
-        System.out.println("Something went wrong. Error code 3.");
-      }
     }
+    return input;
   }
 
   // Tests if input contains any number of invalid characters. If so, return the array of all invalid characters included. Invalid characters could be invalid string literals
@@ -109,12 +115,11 @@ public class Interact
     return symbolsDetected;
   }
 
+  // Print out each of the options that are available to the user (print differently depending on the number of options)
+  // Either print an array or an ArrayList
   private static void outputArrayEnglish(String[] array, ArrayList<String> arrayList)
   {
-    // Print out each of the options that are available to the user (print differently depending on the number of options)
-
-
-    if(array != null)
+    if(array.length != 0)
     {
     // Having one option to choose from is rare, but may occur later
       if(array.length == 1)
@@ -147,7 +152,7 @@ public class Interact
         }
       }
     }
-    else if(array == null)
+    else if(array.length == 0)
     {
       // Having one option to choose from is rare, but may occur later
       if(arrayList.size() == 1)
@@ -180,10 +185,5 @@ public class Interact
         }
       }
     }
-    else
-    {
-      System.out.println("Something went wrong. Error code 4.");
-    }
   }
-
 }
