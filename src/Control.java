@@ -1,9 +1,14 @@
 package src;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
+import java.io.*;
+import java.nio.*;
 
-public class Control {
-  public static void main(String[] args) {
+public class Control
+{
+  public static void main(String[] args)
+  {
     System.out.println("\n\nWelcome to the word-finder Java program! This program serves two purposes. It returns an array of words related to an inputed word or string. Also, users can enter in a word, and guess the possible relationships to that word. The specific relationship is defined by the user on launch of the program. The former serves the utility function. the latter serves the game function.");
 
     // Ask if the user wants to play the game or utilize the utility

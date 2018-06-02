@@ -7,84 +7,68 @@ import java.nio.*;
 
 public class Generator
 {
-  public static List<String> stringToArrayList(String word)
+  public static List<String> stringToArrayList(String query)
   {
     //  Create an ArrayList with each element containing a character of the word
-    List<String> wordChars = new ArrayList<String>();
-    for(int i = 0; i < word.length(); i++)
+    List<String> queryChars = new ArrayList<String>();
+    for(int i = 0; i < query.length(); i++)
     {
-      wordChars.add(word.substring(i, i + 1));
+      queryChars.add(query.substring(i, i + 1));
     }
-    return wordChars;
+    return queryChars;
   }
 
-  public static List<String> traverseDictionary(List<String> wordChars, String searchType)
+  public static List<String> traverseDictionary(List<String> queryChars, String searchType)
   {
     List<String> foundWords = new ArrayList<String>();
 
-    Scanner x;
-
-    try
-    {
-      x = new Scanner(new File("file.txt"));
-
-      while(x.hasNext())
-      {
-        System.out.println(x.next());
-      }
-    }
-    catch(Exception e)
-    {
-      System.out.println("Could not find file");
-    }
-
-
-    /*
-    // Try to get the dictionary text file
+    System.out.println("this is a test");
     Scanner x = null;
     try
     {
-      x = new Scanner"(dictionary.txt");
-
-      while(x.hasNext())
-      {
-        // Save the dictionary word on each line to a variable
-        String lineWord = x.next();
-
-        // Convert each dictionary word into an array of characters
-        List<String> lineWordChars = stringToArrayList(lineWord);
-
-        System.out.println(lineWord);
-      }
+      x = new Scanner(new File("src/dictionary.txt"));
     }
     catch(Exception e)
     {
-      System.out.println("Could not find the dictionary file. Error code 3.");
+      System.out.println("Could not find the file. Get the text file, then restart program.");
     }
-    */
+    while(x.hasNext())
+    {
+      // For every single word, check relationship
+	    checkRelationship(queryChars, stringToArrayList(x.next()), searchType);
+    }
+    x.close();
+
     return foundWords;
   }
 
-  private static void checkRelationship(List<String> wordChars, List<String>lineWordChars, String searchType)
+  private static void checkRelationship(List<String> queryChars, List<String> dictChars, String searchType)
   {
-    List<String> mutLineWordChars = lineWordChars;
+    List<String> mutDictChars = dictChars;
 
-    // Check the relationship of the word differently depending on what option the user selects
-    if(searchType.equalsIgnoreCase("less"))
+    for(int i = 0; i < queryChars.size(); i++)
     {
+      for(int j = 0; j < mutDictChars.size(); j++)
+      {
+        // Match every single letter of the word with every single character of every single word in the dictionary
+        // Check the relationship of the word differently depending on what option the user selects
+        if(searchType.equalsIgnoreCase("less"))
+        {
 
-    }
-    else if(searchType.equalsIgnoreCase("equal"))
-    {
+        }
+        else if(searchType.equalsIgnoreCase("equal"))
+        {
 
-    }
-    else if(searchType.equalsIgnoreCase("greater"))
-    {
+        }
+        else if(searchType.equalsIgnoreCase("greater"))
+        {
 
-    }
-    else
-    {
-      System.out.println("This should not occur error code 4.");
+        }
+        else
+        {
+          System.out.println("This should not occur error code 4.");
+        }
+      }
     }
   }
 }
