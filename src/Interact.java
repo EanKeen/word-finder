@@ -76,7 +76,7 @@ public class Interact
       input = scan.nextLine();
 
       // Creates array of all invalidLiterals that exist in the user-inputed string (invalid characters determined by notAlphabetCharacters array at the top of this class)
-      ArrayList<String> symbolsDetected = Interact.detectInvalidLiteral(input, notAlphabetCharacters);
+      List<String> symbolsDetected = Interact.detectInvalidLiteral(input, notAlphabetCharacters);
 
       for(int i = 0; i < symbolsDetected.size(); i++)
       {
@@ -100,9 +100,9 @@ public class Interact
   }
 
   // Tests if input contains any number of invalid characters. If so, return the array of all invalid characters included. Invalid characters could be invalid string literals
-  private static ArrayList<String> detectInvalidLiteral(String input, String[] pInvalidLiterals)
+  private static List<String> detectInvalidLiteral(String input, String[] pInvalidLiterals)
   {
-    ArrayList<String> symbolsDetected = new ArrayList<String>();
+    List<String> symbolsDetected = new ArrayList<String>();
     // Return array of all symbols that is inside of String input. If no symbols exist, return an empty array
     for(String symbol : pInvalidLiterals)
     {
@@ -117,7 +117,7 @@ public class Interact
 
   // Print out each of the options that are available to the user (print differently depending on the number of options)
   // Either print an array or an ArrayList
-  private static void outputArrayEnglish(String[] array, ArrayList<String> arrayList)
+  private static void outputArrayEnglish(String[] array, List<String> arrayList)
   {
     if(array.length != 0)
     {
