@@ -21,7 +21,7 @@ then
     cd ../
     java src.Control
   else
-    echo "Not all .class files are present. Aborting run."
+    echo "Not all .class files are present. Aborting run. (run.sh)"
   fi
 
 else
@@ -41,6 +41,6 @@ else
     cd ../
     java src.Control
   else
-    echo "Not all .class files are present. Aborting run."
+    echo "Not all .class files are present. Aborting run. (run.sh)"
   fi
 fi
