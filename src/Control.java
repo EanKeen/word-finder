@@ -28,14 +28,19 @@ public class Control
 
     if(mainFunctionInput.equalsIgnoreCase("utility"))
     {
-
+      // Obtain the search query by user. Variable 'word' will convert to arrayList, and be defined as queryChars in Generator class
       String word = Interact.promptReply("\nPlease enter an alphanumeric string you want to analyze");
 
+      // Gets the dictionary words the user wants
       List<String> matchingWords = Generator.traverseDictionary(Generator.stringToArrayList(word), searchType);
 
+      // Outputs the dictionary words the user chose
+      Interact.addToArraySide(matchingWords, "'", "'");
+      Interact.outputArrayEnglish(new String[]{}, matchingWords);
     }
     else if(mainFunctionInput.equalsIgnoreCase("game"))
     {
+      // Obtain the search query by user. Variable 'word' will convert to arrayList, and be defined as queryChars in Generator class
       String word = Interact.promptReply("\nPlease enter an alphanumeric string you want to analyze");
 
 

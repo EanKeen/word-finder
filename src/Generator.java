@@ -9,7 +9,7 @@ public class Generator
 {
   public static List<String> stringToArrayList(String query)
   {
-    //  Create an ArrayList with each element containing a character of the word
+    // Create an ArrayList with each element containing a character of the word
     List<String> queryChars = new ArrayList<String>();
     for(int i = 0; i < query.length(); i++)
     {
@@ -20,121 +20,117 @@ public class Generator
 
   public static List<String> traverseDictionary(List<String> queryChars, String searchType)
   {
+    // ArrayList of all the found words that match
     List<String> foundWords = new ArrayList<String>();
 
     Scanner x = null;
+    // Try to scan the file, if scanning was not successfull, tell the user
     try
     {
       x = new Scanner(new File("src/dictionary.txt"));
+
+      while(x.hasNext())
+      {
+        // For every single word, check relationship
+  	    String foundWord = checkRelationship(queryChars, x.next(), searchType);
+
+        if(!foundWord.equalsIgnoreCase("|"))
+        {
+          foundWords.add(foundWord);
+        }
+      }
     }
     catch(Exception e)
     {
       System.out.println("Could not find the file. Get the text file, then restart program.");
-    }
-    while(x.hasNext())
-    {
-      // For every single word, check relationship
-	    checkRelationship(queryChars, x.next(), stringToArrayList(x.next()), searchType);
     }
     x.close();
 
     return foundWords;
   }
 
-  private static void checkRelationship(List<String> queryChars, String dictWord, List<String> dictChars, String searchType)
+  private static String checkRelationship(List<String> queryChars, String dictWord, String searchType)
   {
-    List<String> foundWords = doThis(queryChars, dictWord, dictChars, searchType);
-  }
-
-  private static List<String> doThis(List<String> queryChars, String dictWord, List<String> dictChars, String searchType)
-  {
-    List<String> foundWords = new ArrayList<String>();
-
-    //Every single character of dictionary word
-    for(int i = 0; i < dictWord.length(); i++)
-    {
-      dictChars.add(dictWord.substring(i, i+1));
-    }
-
-    // Make a copy of dictChars that can be manipulated (and reset) for every word of the dictionary
+    // Make a copy of array of characters of each dictionary word (this is the one that will be modified)
     List<String> mutDictChars = stringToArrayList(dictWord);
 
-    Boolean userCharsEqualsdictChars = true;
-    List<String> userChars = queryChars;
+    // By default, the query chars will match the dict chars
+    Boolean queryCharsEqualsDictChars = true;
 
-    for(int i = 0; i < userChars.size(); i++) //For each character in userChars
+    // For every char in the user query
+    for(int i = 0; i < queryChars.size(); i++)
     {
-      if(userCharsEqualsdictChars == true)
+      // Only continue if the query char has the posibility of being, or is, equal to the dict chars
+      if(queryCharsEqualsDictChars == true)
       {
-        Boolean userCharIndictChars = false;
+        // By default, a diven query char will not be in the dictionary
+        Boolean queryCharInDictChars = false;
 
-        String userChar = userChars.get(i); //For each character in mutDictChars
+        // Get the current char of the user query
+        String queryChar = queryChars.get(i);
+
+        // For every char in dictionary word
         for(int j = 0; j < mutDictChars.size(); j++)
         {
-          /*
-          If the userChar is in the dictionaryChar at least once, then don't do
-          anything more to dictionarChar2 elements
-          */
-          if(userCharIndictChars == false)
+          // Only continue if we think that a query char will not be in the dictionary char
+          if(queryCharInDictChars == false)
           {
-            String dictionaryChar2 = mutDictChars.get(j);
-            if(!userChar.equalsIgnoreCase(dictionaryChar2))
+            // Get the current char of the dict word
+            String mutDictChar = mutDictChars.get(j);
+
+            // If user query is not the same as dict char, its ok, check the next letter of dict char
+            if(!queryChar.equalsIgnoreCase(mutDictChar))
             {
               //Do nothing, move onto next letter and see if its equal
-              userCharIndictChars = false;
+              queryCharInDictChars = false;
             }
-            if(userChar.equalsIgnoreCase(dictionaryChar2))
+            // If user char is the same as the dictionary chat, it's a match! Remove the char from dictionary chars
+            // since we don't want to count duplicates if there is more than one character of the same type
+            // Make sure to set queryCharInDictChars, because the query char WAS found in the dict word (query chars)
+            if(queryChar.equalsIgnoreCase(mutDictChar))
             {
               mutDictChars.remove(j);
-              userCharIndictChars = true;
+              queryCharInDictChars = true;
               j--;
             }
           }
         }
 
-
-        if (userCharIndictChars == false)
+        // What is the query char is NOT in the dict word AT ALL? What to do?
+        if (queryCharInDictChars == false)
         {
-          /* If we cycled through all of dictionaryChar2 and one of our userChar
-          is not in there, then we want to stop searching the userChars arrayList,
-          then move on to the next dictionaryWord */
-          userCharsEqualsdictChars = false;
+          // If one query char is not in the dict chars, then query chars
+          // is NOT equal to dict chars
+          queryCharsEqualsDictChars = false;
 
           if(searchType.equalsIgnoreCase("less"))
-          /*
-          If 3 is selected, it doesn't matter if a character in
-          userChars is not in dictChars. dictChars may only
-          include some parts of userChars. (if dictChars is "apps" and
-          userChars is "apples", its ok)
-          */
           {
-            userCharsEqualsdictChars = true;
+            // However, if 'less' option is true, then not each query char may be in dict chars
+            queryCharsEqualsDictChars = true;
           }
         }
       }
     }
 
-    if(userCharsEqualsdictChars == true)
+    String foundWord = "|";
+
+    if(queryCharsEqualsDictChars == true)
     {
       if(searchType.equalsIgnoreCase("greater"))
       {
-        System.out.print(dictWord + ", ");
-        foundWords.add(dictWord);
+        foundWord = dictWord;
       }
-      if (searchType.equalsIgnoreCase("equal"))
+      else if (searchType.equalsIgnoreCase("equal") && queryChars.size() == dictWord.length())
       {
-        System.out.print(dictWord + ", ");
-        foundWords.add(dictWord);
+        foundWord = dictWord;
       }
-      if (searchType.equalsIgnoreCase("less"))
+      else if (searchType.equalsIgnoreCase("less") && mutDictChars.size() == 0)
       {
-        if(mutDictChars.size() == 0)
-        {
-          System.out.print(dictWord + ", ");
-          foundWords.add(dictWord);
-        }
+        // If mutDictChars size is 0, it means that the dict word found is smaller than the user query
+        // (which is what we want)
+        foundWord = dictWord;
       }
     }
-    return foundWords;
+    return foundWord;
   }
 }

@@ -2,13 +2,18 @@ package src;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
+import static java.util.Arrays.asList;
 
 public class Interact
 {
   // Creating key variables
   static String[] notAlphabetCharacters = new String[] {"`", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "=", "~", "!", "@",
-                                                 "#", "$", "%", "^", "&", "*", "(", ")", "_", "+", "{", "}", "[", "]", ";", ":",
-                                                 "\'", "\"", ",", ".", "<", ">", "?", "/", "\\", "|", " "};
+  "#", "$", "%", "^", "&", "*", "(", ")", "_", "+", "{", "}", "[", "]", ";", ":",
+  "\'", "\"", ",", ".", "<", ">", "?", "/", "\\", "|", " "};
+
+  static List<String> notAlphabetCharacters2 = asList("`", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "=", "~", "!", "@",
+  "#", "$", "%", "^", "&", "*", "(", ")", "_", "+", "{", "}", "[", "]", ";", ":",
+  "\'", "\"", ",", ".", "<", ">", "?", "/", "\\", "|", " ");
 
   // User chooses a pre-selected option
   public static String promptReply(String message, String[] options)
@@ -117,7 +122,7 @@ public class Interact
 
   // Print out each of the options that are available to the user (print differently depending on the number of options)
   // Either print an array or an ArrayList
-  private static void outputArrayEnglish(String[] array, List<String> arrayList)
+  public static void outputArrayEnglish(String[] array, List<String> arrayList)
   {
     if(array.length != 0)
     {
@@ -185,5 +190,14 @@ public class Interact
         }
       }
     }
+  }
+
+  public static List<String> addToArraySide(List<String> arrayList, String leftElement, String rightElement)
+  {
+    for(int i = 0; i < arrayList.size(); i++)
+    {
+      arrayList.set(i, leftElement + arrayList.get(i) + rightElement);
+    }
+    return arrayList;
   }
 }
