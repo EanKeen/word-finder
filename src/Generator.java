@@ -18,25 +18,31 @@ public class Generator
     return queryChars;
   }
 
-  public static List<String> traverseDictionary(List<String> queryChars, String searchType)
+  public static List<String> traverseDictionary(List<String> queryChars, String searchType, String dictionaryType, Boolean printWords)
   {
     // ArrayList of all the found words that match
     List<String> foundWords = new ArrayList<String>();
+
+    String dictionarySource = "src/dictionary" + dictionaryType + ".txt";
 
     Scanner x = null;
     // Try to scan the file, if scanning was not successfull, tell the user
     try
     {
-      x = new Scanner(new File("src/dictionary.txt"));
+      x = new Scanner(new File(dictionarySource));
 
       while(x.hasNext())
       {
-        // For every single word, check relationship
+        // For every single word, check relationship; foundWord is a word in the dictionary that matches with the user query. foundWords is '|' when no match exists
   	    String foundWord = checkRelationship(queryChars, x.next(), searchType);
 
         if(!foundWord.equalsIgnoreCase("|"))
         {
           foundWords.add(foundWord);
+          if(printWords == true)
+          {
+            System.out.print(foundWord + " ");
+          }
         }
       }
     }
@@ -49,6 +55,7 @@ public class Generator
     return foundWords;
   }
 
+  // Query chars is all the characters in the query (user-input)
   private static String checkRelationship(List<String> queryChars, String dictWord, String searchType)
   {
     // Make a copy of array of characters of each dictionary word (this is the one that will be modified)

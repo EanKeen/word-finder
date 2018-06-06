@@ -198,6 +198,7 @@ public class Interact
     {
       arrayList.set(i, leftElement + arrayList.get(i) + rightElement);
     }
+    
     return arrayList;
   }
 }

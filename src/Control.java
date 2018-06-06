@@ -17,40 +17,81 @@ public class Control
     // Both utility and game function will prompt which search tool to use
     String searchType = Interact.promptReply("\nWhich word search tool would you like to utilitze? This can only be chosen once per run of the program. (less / equal / greater) \n"
     + "[Less]: Find words that contain only the characters of the inputed string (similar to finding words from tiles in a multiplayer crossword game)\n"
-    + "Ex. 'apple' -> ['app', 'pal'] (NOT 'pans' because no 's' in 'apple').\n \n"
+    + "Ex. 'apple' -> ['app', 'pal'] (NOT 'pans' because no 's' in 'apple').\n"
 
     + "[Equal]: Find words that contain the exact same characters as the inputed string.\n"
-    + "Ex. 'apple' -> ['appel'] \n \n"
+    + "Ex. 'apple' -> ['appel'] \n"
 
     + "[Greater]: Find words longer than the inputed string that contain all the characters of the inputed string.\n"
     + "Ex. 'apple' -> ['applesause', 'apples']"
     , new String[]{"less", "equal", "greater"});
 
+    // Ask the user which dictionary to use (less words or more words)
+    String dictionaryType = Interact.promptReply("\nWhat size dictionary do you want to use? (small / medium / large)", new String[]{"small", "medium", "large"});
+
+    // Obtain the search query by user. Variable 'word' will convert to arrayList, and be defined as queryChars in Generator class
+    String word = Interact.promptReply("\nPlease enter a string you want to analyze");
+
     if(mainFunctionInput.equalsIgnoreCase("utility"))
     {
-      // Obtain the search query by user. Variable 'word' will convert to arrayList, and be defined as queryChars in Generator class
-      String word = Interact.promptReply("\nPlease enter an alphanumeric string you want to analyze");
-
       // Gets the dictionary words the user wants
-      List<String> matchingWords = Generator.traverseDictionary(Generator.stringToArrayList(word), searchType);
+      List<String> matchingWords = Generator.traverseDictionary(Generator.stringToArrayList(word), searchType, dictionaryType, true);
 
       // Outputs the dictionary words the user chose
-      Interact.addToArraySide(matchingWords, "'", "'");
+      System.out.println("\nThe following are words that match your query");
+
+      // Prints array (not real time, prints after generation, disabled for now)
+      //Interact.outputArrayEnglish(new String[]{}, matchingWords);
+
+      // Manipulates the array by deleting or only allowing certain strings from array elements
+      matchingWords = Manipulate.manipulateArray(matchingWords);
+
+      String sortType = Interact.promptReply("\nHow would you like to sort the array? (length, wwfLetterScore, scrabbleScore)", new String[]{"length", "wwfLetterScore", "scrabbleScore"});
+
+      matchingWords = Sort.sortArray(matchingWords, sortType);
+
+      System.out.println("\n\nThe following is the sorted array");
       Interact.outputArrayEnglish(new String[]{}, matchingWords);
+
+
     }
     else if(mainFunctionInput.equalsIgnoreCase("game"))
     {
-      // Obtain the search query by user. Variable 'word' will convert to arrayList, and be defined as queryChars in Generator class
-      String word = Interact.promptReply("\nPlease enter an alphanumeric string you want to analyze");
+      String totalPlayers = Interact.promptReply("\nHow many players are there?", new String[]{"1", "2", "3", "4"});
+
+      Game.getPlayerNames(totalPlayers);
+
+      Boolean gameOver = false;
+
+      // Gets the dictionary words the user wants
+      List<String> matchingWords = Generator.traverseDictionary(Generator.stringToArrayList(word), searchType, dictionaryType, false);
 
 
-      // This is the main game to be played
-      List<String> matchingWords = Generator.traverseDictionary(Generator.stringToArrayList(word), searchType);
+      int totalMatches = 0;
+      // Now want to guess the dictionary words, each one of them, while the game is not over
+      while(!gameOver)
+      {
+        String guess = Interact.promptReply("\nGuess a word that matches the search tool you selected");
 
-    }
-    else
-    {
-      System.out.println("Something went wrong. Error code 1.");
+        List<String> mutMatchingWords = Sort.removeStringFromArray(matchingWords, guess);
+
+        if( Manipulate.arrayListEqualSize(mutMatchingWords, matchingWords) )
+        {
+          // Arrays are equal, word not found
+          Game.wordNotFound();
+        }
+        else
+        {
+          // Arrays are not equal, word found
+          Game.wordFound();
+        }
+
+        if(mutMatchingWords.size() == 0)
+        {
+          // All words found; game over
+          Game.gameOver();
+        }
+      }
     }
   }
 }

@@ -5,7 +5,7 @@ cd ./src
 
 if [ "$1" == "-rem" ]
 then
-  if [[ -e Control.class || -e Generator.class || -e Interact.class || -e Manipulate.class || -e Sort.class ]];
+  if [[ -e Control.class || -e Generator.class || -e Interact.class || -e Manipulate.class || -e Sort.class || -e Game.class ]];
   then
     rm *.class
   fi
@@ -16,7 +16,7 @@ then
 
 elif [ "$1" == "-run" ]
 then
-  if [[ -e Control.class && -e Generator.class && -e Interact.class && -e Manipulate.class && -e Sort.class ]];
+  if [[ -e Control.class && -e Generator.class && -e Interact.class && -e Manipulate.class && -e Sort.class && -e Game.class ]];
   then
     cd ../
     java src.Control
@@ -27,7 +27,7 @@ then
 else
 #Default behavior is to delete class files, then replace them (if class files exist or on successfull run)
   # Removes all class files
-  if [[ -e Control.class || -e Generator.class || -e Interact.class || -e Manipulate.class || -e Sort.class ]];
+  if [[ -e Control.class || -e Generator.class || -e Interact.class || -e Manipulate.class || -e Sort.class || -e Game.class ]];
   then
     rm *.class
   fi
@@ -36,7 +36,7 @@ else
   javac *.java
 
   # Only on a succesful compile (class files were generated), run the .class files
-  if [[ -e Control.class && -e Generator.class && -e Interact.class && -e Manipulate.class && -e Sort.class ]];
+  if [[ -e Control.class && -e Generator.class && -e Interact.class && -e Manipulate.class && -e Sort.class && -e Game.class ]];
   then
     cd ../
     java src.Control
