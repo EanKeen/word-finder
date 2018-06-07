@@ -11,9 +11,15 @@ public class Interact
   "#", "$", "%", "^", "&", "*", "(", ")", "_", "+", "{", "}", "[", "]", ";", ":",
   "\'", "\"", ",", ".", "<", ">", "?", "/", "\\", "|", " "};
 
+  static String[] notAlphabetCharactersForGame = new String[] {"`", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "=", "~", "!", "@",
+  "#", "$", "%", "^", "&", "*", "(", ")", "_", "+", "{", "}", "[", "]", ";", ":",
+  "\'", "\"", ",", ".", "<", ">", "?", "/", "\\", "|", " "};
+
+  /* Declaring a list with predetermined elements
   static List<String> notAlphabetCharacters2 = asList("`", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "=", "~", "!", "@",
   "#", "$", "%", "^", "&", "*", "(", ")", "_", "+", "{", "}", "[", "]", ";", ":",
   "\'", "\"", ",", ".", "<", ">", "?", "/", "\\", "|", " ");
+  */
 
   // User chooses a pre-selected option
   public static String promptReply(String message, String[] options)
@@ -63,8 +69,19 @@ public class Interact
   }
 
   // User inputs any option / parameter that is made of words in alphabet
-  public static String promptReply(String message)
+  public static String promptReply(String message, int arrayType)
   {
+    String[] invalidArrayCharacters = {};
+
+    if(arrayType == 0)
+    {
+      invalidArrayCharacters = notAlphabetCharacters;
+    }
+    else if(arrayType == 1)
+    {
+      invalidArrayCharacters = notAlphabetCharactersForGame;
+    }
+
     // Create variables
     Scanner scan;
     String input = "";
@@ -72,23 +89,24 @@ public class Interact
 
     System.out.println(message);
 
-    // Is the input valid? (to be valid, must include alphabet characters)
+    // Is the input valid? (to be valid, must include alphabet characters, and not be a length of zero)
     isValid = false;
     while(!isValid)
     {
-      // Is the input valid?
+      // Getting the input
       scan = new Scanner(System.in);
       input = scan.nextLine();
 
-      // Creates array of all invalidLiterals that exist in the user-inputed string (invalid characters determined by notAlphabetCharacters array at the top of this class)
-      List<String> symbolsDetected = Interact.detectInvalidLiteral(input, notAlphabetCharacters);
+      // Creates array of all invalidLiterals that exist in the user-inputed string (invalid characters determined by third paramter of function at the top of this method)
+      List<String> symbolsDetected = Interact.detectInvalidLiteral(input, invalidArrayCharacters);
 
+      // Formats array that holds all of the invalid literals that exist in the user-inputed string
       for(int i = 0; i < symbolsDetected.size(); i++)
       {
         symbolsDetected.set(i, "'" + symbolsDetected.get(i) + "'");
       }
       // If input does not include invalid characters, then it is valid
-      if(symbolsDetected.size() == 0)
+      if(symbolsDetected.size() == 0 && input.length() != 0)
       {
         isValid = true;
         System.out.println("You entered [" + input + "]");
@@ -99,6 +117,11 @@ public class Interact
         outputArrayEnglish(new String[]{}, symbolsDetected);
 
         // String is not valid, must prompt for input again
+      }
+      else if(input.length() == 0)
+      {
+        // Since input has no length, do not need an extra line space on console output
+        System.out.println("Input not valid. Input must include some characters.");
       }
     }
     return input;
@@ -198,7 +221,7 @@ public class Interact
     {
       arrayList.set(i, leftElement + arrayList.get(i) + rightElement);
     }
-    
+
     return arrayList;
   }
 }

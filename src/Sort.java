@@ -332,7 +332,7 @@ public class Sort
     }
   }
 
-  // Don't know how this works, but it does
+  // Don't know how this works, but it does (convert the amount of steps used to sort array into a yes or no value: is the array sorted) The array is sorted if the steps reaches the length of the array
   public static Boolean stepsToBoolean(List<String> matchingWords, int stepsIn)
   {
     Boolean isSorted = false;
@@ -354,14 +354,17 @@ public class Sort
   }*/
   public static List<String> removeStringFromArray(List<String> arrayList, String elementToFind)
   {
+    System.out.println("Before removing string from array " + arrayList.size());
     for(int i = 0; i < arrayList.size(); i++)
     {
-      if(arrayList.get(i).equalsIgnoreCase(elementToFind))
+      String arrayListElement = arrayList.get(i);
+      if(arrayListElement.equalsIgnoreCase(elementToFind))
       {
         arrayList.remove(i);
         i--;
       }
     }
+    System.out.println("After removing string from array " + arrayList.size());
     return arrayList;
   }
 }

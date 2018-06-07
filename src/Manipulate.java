@@ -20,7 +20,7 @@ public class Manipulate
       if(sortType.equalsIgnoreCase("wordKeep"))
       {
         // sortQuery is words entered in by user that causes changes in array
-        String sortQuery = Interact.promptReply("\nEnter in string or chars per rule chosen above.");
+        String sortQuery = Interact.promptReply("\nEnter in string or chars per rule chosen above.", 0);
 
         matchingWords = wordKeep(matchingWords, sortQuery);
         System.out.println("\nThe following is the modified array");
@@ -29,7 +29,7 @@ public class Manipulate
       else if(sortType.equalsIgnoreCase("wordRemove"))
       {
         // sortQuery is words entered in by user that causes changes in array
-        String sortQuery = Interact.promptReply("\nEnter in string or chars per rule chosen above.");
+        String sortQuery = Interact.promptReply("\nEnter in string or chars per rule chosen above.", 0);
 
         matchingWords = wordRemove(matchingWords, sortQuery);
         System.out.println("\nThe following is the modified array");
@@ -72,7 +72,6 @@ public class Manipulate
     // If word does contain sortQuery, remove it
     for(int i = 0; i < matchingWords.size(); i++)
     {
-      //
       if(matchingWords.get(i).indexOf(sortQuery) != -1 )
       {
         matchingWords.remove(i);
@@ -104,13 +103,19 @@ public class Manipulate
   */
   public static Boolean arrayListEqualSize(List<String> arrayList1, List<String> arrayList2)
   {
-    if(arrayList1.size() == arrayList2.size())
+    System.out.println("manipulate " + arrayList2.size());
+    System.out.println("manipulate " + arrayList1.size());
+    return true;
+    /*if(arrayList1.size() == arrayList2.size())
     {
       return true;
+      System.out.println("return true");
     }
     else
     {
+      System.out.println("return false");
       return false;
     }
+    return true;*/
   }
 }
