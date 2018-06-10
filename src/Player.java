@@ -36,4 +36,14 @@ public class Player
   {
     return initial;
   }
+
+  public int getPlayerRightGuesses()
+  {
+   return rightGuesses;
+  }
+
+  public int getPlayerTotalGuesses()
+  {
+   return totalGuesses;
+  }
 }

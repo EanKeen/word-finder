@@ -8,7 +8,15 @@ public class Sort
 
   public static List<String> sortArray(List<String> matchingWords, String sortType)
   {
+    // Really cool loading effect; does nothing but waste time
     System.out.print("Working");
+    pause(300);
+    System.out.print(".");
+    pause(400);
+    System.out.print(".");
+    pause(500);
+    System.out.println(".");
+    pause(300);
 
     // Steps in is the length of the array if completely sorted
     int stepsIn = 0;
@@ -26,12 +34,12 @@ public class Sort
             swapElements(matchingWords, i);
           }
         }
-        artifialLoading();
 
         // Test: is the array sorted by length?
-        // isLengthSorted actually returns an int, how much the array is sorted
-        stepsIn = isLengthSorted(matchingWords);
-        isSorted = stepsToBoolean(matchingWords, stepsIn);
+        isSorted = isLengthSorted(matchingWords);
+
+        stepsIn = lengthStepsIn(matchingWords);
+        System.out.println(stepsIn + " of " + matchingWords.size() + " steps.");
       }
 
     }
@@ -43,17 +51,18 @@ public class Sort
         for(int i = 0; i < matchingWords.size() - 1; i++)
         {
           // Of two elements, if left element has greater words with friends value than right element, then swap them
-          if(wordWordsFriendsValue(matchingWords.get(i)) > wordWordsFriendsValue(matchingWords.get(i)))
+          if(wordWordsFriendsValue(matchingWords.get(i)) > wordWordsFriendsValue(matchingWords.get(i + 1)))
           {
             swapElements(matchingWords, i);
           }
         }
-        artifialLoading();
 
         // Test: is the array sorted by length?
-        // isWordsFriendsValueSorted actually returns an int, how much the array is sorted
-        stepsIn = isWordsFriendsValueSorted(matchingWords);
-        isSorted = stepsToBoolean(matchingWords, stepsIn);
+        isSorted = isWordsFriendsValueSorted(matchingWords);
+
+        stepsIn = wffValueStepsIn(matchingWords);
+        System.out.println(stepsIn + " of " + matchingWords.size() + " steps.");
+
       }
     }
     else if(sortType.equalsIgnoreCase("scrabbleScore"))
@@ -64,17 +73,17 @@ public class Sort
         for(int i = 0; i < matchingWords.size() - 1; i++)
         {
           // Of two elements, if left element has greater scrabble value than right element, then swap them
-          if(wordScrabbleValue(matchingWords.get(i)) > wordScrabbleValue(matchingWords.get(i)))
+          if(wordScrabbleValue(matchingWords.get(i)) > wordScrabbleValue(matchingWords.get(i + 1)))
           {
             swapElements(matchingWords, i);
           }
         }
-        artifialLoading();
 
         // Test: is the array sorted by length?
-        // isScrabbleValueSorted actually returns an int, how much the array is sorted
-        stepsIn = isScrabbleValueSorted(matchingWords);
-        isSorted = stepsToBoolean(matchingWords, stepsIn);
+        isSorted = isScrabbleValueSorted(matchingWords);
+
+        stepsIn = scrabbleValueStepsIn(matchingWords);
+        System.out.println(stepsIn + " of " + matchingWords.size() + " steps.");
       }
     }
 
@@ -255,81 +264,105 @@ public class Sort
 
   // The larger values of length must be near the right side of the array
   // Returns the length of the arrayList if sorted completely
-  public static int isLengthSorted(List<String> arrayList)
+  public static Boolean isLengthSorted(List<String> arrayList)
   {
     Boolean isSorted = true;
-    int stepsIn = 0;
 
     for(int i = 0; i < arrayList.size() - 1; i++)
     {
       if(arrayList.get(i).length() > arrayList.get(i + 1).length())
       {
-        // When is sorted is true, update stepsIn with the current i value. Right before when isSorted is false, it will update stepsIn; now isSorted will no longer be true, an the list will no longer be updated once the list is not sorted
-        if(isSorted = true)
-        {
-          stepsIn = i;
-        }
-
         isSorted = false;
       }
     }
-    return stepsIn;
-
+    return isSorted;
   }
 
-  // Returns the length of the arrayList if sorted completely
-  public static int isWordsFriendsValueSorted(List<String> arrayList)
+  public static int lengthStepsIn(List<String> arrayList)
   {
+    int stepsIn = 1;
     Boolean isSorted = true;
-    int stepsIn = 0;
 
     for(int i = 0; i < arrayList.size() - 1; i++)
     {
-      if(wordWordsFriendsValue(arrayList.get(i)) > wordWordsFriendsValue(arrayList.get(i)))
+      if(arrayList.get(i).length() > arrayList.get(i + 1).length())
       {
-        // When is sorted is true, update stepsIn with the current i value. Right before when isSorted is false, it will update stepsIn; now isSorted will no longer be true, an the list will no longer be updated once the list is not sorted
-        if(isSorted = true)
-        {
-          stepsIn = i;
-        }
-
         isSorted = false;
+      }
+      else
+      {
+        stepsIn++;
       }
     }
     return stepsIn;
   }
 
   // Returns the length of the arrayList if sorted completely
-  public static int isScrabbleValueSorted(List<String> arrayList)
+  public static Boolean isWordsFriendsValueSorted(List<String> arrayList)
   {
     Boolean isSorted = true;
-    int stepsIn = 0;
 
     for(int i = 0; i < arrayList.size() - 1; i++)
     {
-      if(wordScrabbleValue(arrayList.get(i)) > wordScrabbleValue(arrayList.get(i)))
+      if(wordWordsFriendsValue(arrayList.get(i)) > wordWordsFriendsValue(arrayList.get(i + 1)))
       {
-        // When is sorted is true, update stepsIn with the current i value. Right before when isSorted is false, it will update stepsIn; once this occurs isSorted will no longer be true, and the list will no longer be updated once the list is not sorted
-        if(isSorted = true)
-        {
-          stepsIn = i;
-        }
-
         isSorted = false;
+      }
+    }
+    return isSorted;
+  }
+
+  public static int wffValueStepsIn(List<String> arrayList)
+  {
+    int stepsIn = 1;
+    Boolean isSorted = true;
+
+    for(int i = 0; i < arrayList.size() - 1; i++)
+    {
+      if(wordWordsFriendsValue(arrayList.get(i)) > wordWordsFriendsValue(arrayList.get(i + 1)))
+      {
+        isSorted = false;
+      }
+      else
+      {
+        stepsIn++;
       }
     }
     return stepsIn;
   }
 
-  public static void artifialLoading()
+  // Returns the length of the arrayList if sorted completely
+  public static Boolean isScrabbleValueSorted(List<String> arrayList)
   {
-    loadingValue++;
+    Boolean isSorted = true;
 
-    // If the loading value is every divisible by 750, print out a .
-    if(loadingValue % 750 == 0)
+    for(int i = 0; i < arrayList.size() - 1; i++)
     {
-      //System.out.print(".");
+      if(wordScrabbleValue(arrayList.get(i)) > wordScrabbleValue(arrayList.get(i + 1)))
+      {
+        isSorted = false;
+      }
     }
+    return isSorted;
+  }
+
+  public static int scrabbleValueStepsIn(List<String> arrayList)
+  {
+    int stepsIn = 1;
+    Boolean isSorted = true;
+
+    for(int i = 0; i < arrayList.size() - 1; i++)
+    {
+      if(wordScrabbleValue(arrayList.get(i)) > wordScrabbleValue(arrayList.get(i + 1)))
+      {
+        isSorted = false;
+      }
+      else
+      {
+        stepsIn++;
+      }
+    }
+    return stepsIn;
   }
 
   // Don't know how this works, but it does (convert the amount of steps used to sort array into a yes or no value: is the array sorted) The array is sorted if the steps reaches the length of the array
@@ -348,23 +381,42 @@ public class Sort
     return isSorted;
   }
 
-  /*public static void getSteps(List<String> arrayList, stepsIn)
+  public static Boolean wordFoundInArray(List<String> arrayList, String word)
   {
-    System.out.println( " of " + arrayList.size() + " steps.");
-  }*/
-  public static List<String> removeStringFromArray(List<String> arrayList, String elementToFind)
-  {
-    System.out.println("Before removing string from array " + arrayList.size());
+    Boolean isWordInside = false;
     for(int i = 0; i < arrayList.size(); i++)
     {
-      String arrayListElement = arrayList.get(i);
-      if(arrayListElement.equalsIgnoreCase(elementToFind))
+      if(arrayList.get(i).equalsIgnoreCase(word))
+      {
+        isWordInside = true;
+      }
+    }
+    return isWordInside;
+  }
+
+  public static List<String> removeElementFromArray(List<String> arrayList, String wordToRemove)
+  {
+    for(int i = 0; i < arrayList.size(); i++)
+    {
+      if(arrayList.get(i).equalsIgnoreCase(wordToRemove))
       {
         arrayList.remove(i);
         i--;
       }
     }
-    System.out.println("After removing string from array " + arrayList.size());
     return arrayList;
+  }
+
+  // Time is in milliseconds
+  public static void pause(int totalTime)
+  {
+    try
+    {
+      Thread.sleep(totalTime);
+    }
+    catch (InterruptedException e)
+    {
+
+    }
   }
 }

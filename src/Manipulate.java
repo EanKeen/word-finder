@@ -101,21 +101,4 @@ public class Manipulate
 
   }
   */
-  public static Boolean arrayListEqualSize(List<String> arrayList1, List<String> arrayList2)
-  {
-    System.out.println("manipulate " + arrayList2.size());
-    System.out.println("manipulate " + arrayList1.size());
-    return true;
-    /*if(arrayList1.size() == arrayList2.size())
-    {
-      return true;
-      System.out.println("return true");
-    }
-    else
-    {
-      System.out.println("return false");
-      return false;
-    }
-    return true;*/
-  }
 }

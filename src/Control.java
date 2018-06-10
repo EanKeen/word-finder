@@ -9,7 +9,10 @@ public class Control
 {
   public static void main(String[] args)
   {
-    System.out.println("\n\nWelcome to the word-finder Java program! This program serves two purposes. It returns an array of words related to an inputed word or string. Also, users can enter in a word, and guess the possible relationships to that word. The specific relationship is defined by the user on launch of the program. The former serves the utility function. the latter serves the game function.");
+    System.out.println("\nWelcome to the word-finder Java program! This program serves two purposes. It returns an array of words related to an inputed word or string. Also, users can enter in a word, and guess the possible relationships to that word. The specific relationship is defined by the user on launch of the program. The former serves the utility function. the latter serves the game function.");
+
+    // Start background music
+    Interact.playSound("lobby");
 
     // Ask if the user wants to play the game or utilize the utility
     String mainFunctionInput = Interact.promptReply("Would you like to launch the utility function or the game function? This option can only be choosen on program startup. (utility / game)", new String[]{"utility", "game"});
@@ -50,7 +53,7 @@ public class Control
 
       matchingWords = Sort.sortArray(matchingWords, sortType);
 
-      System.out.println("\n\nThe following is the sorted array");
+      System.out.println("\nThe following is the sorted array");
       Interact.outputArrayEnglish(new String[]{}, matchingWords);
 
 
@@ -62,10 +65,9 @@ public class Control
       // totalPlayers is a string denoting the total players
       String totalPlayers = Interact.promptReply("\nHow many players are there?", new String[]{"1", "2", "3", "4"});
 
-      // Continue to ask for player names until there are no duplicates
-
       List<Player> players = new ArrayList<Player>();
       Boolean areDuplicates = true;
+
       while(areDuplicates)
       {
         // Gets the total playernames with '-'; returns an empty array if one player is playing
@@ -76,39 +78,33 @@ public class Control
       }
 
       // Gets the dictionary words the user wants
-
       List<String> wordChars = Generator.stringToArrayList(word);
-      
       List<String> matchingWords = Generator.traverseDictionary(wordChars, searchType, dictionaryType, false);
 
-
       int totalMatches = 0;
+
+      // Original array elements (does not work without this)
+      List<String> matchingWordsOriginal = new ArrayList<String>(matchingWords.size());
+      for(int i = 0; i < matchingWords.size(); i++)
+      {
+        matchingWordsOriginal.add(i, matchingWords.get(i));
+      }
+
       // Now want to guess the dictionary words, each one of them, while the game is not over
       while(!gameOver)
       {
         // Guess a word in array
-        String guessWithHyphen = Interact.promptReply("\nGuess a word that matches the search tool you selected.", 1);
+        String guessWithHyphen = Interact.promptReply("\nEnter a word that matches the search tool you selected. '-' to show inputed string. '--' to show score.", 1);
 
         // Test if guess includes a playername; if so, will remove word from array and add a point to the player
-        Game.analyzeGuess(matchingWords, guessWithHyphen, players);
-
-        /*if( Manipulate.arrayListEqualSize(mutMatchingWords, matchingWords) )
+        if(!totalPlayers.equalsIgnoreCase("1"))
         {
-          // Arrays are equal, word not found
-          Game.wordNotFound();
+          Game.analyzeGuess(matchingWords, matchingWordsOriginal, guessWithHyphen, players, word);
         }
         else
         {
-          // Arrays are not equal, word found
-          Game.wordFound();
+          Game.analyzeGuessSingle(matchingWords, matchingWordsOriginal, guessWithHyphen, players, word);
         }
-
-        if(mutMatchingWords.size() == 0)
-        {
-          // All words found; game over
-          Game.gameOver();
-          gameOver = true;
-        }*/
       }
     }
   }

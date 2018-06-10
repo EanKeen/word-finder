@@ -2,7 +2,10 @@ package src;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
-import static java.util.Arrays.asList;
+import java.io.File;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+
 
 public class Interact
 {
@@ -223,5 +226,24 @@ public class Interact
     }
 
     return arrayList;
+  }
+
+  public static void playSound(String file)
+
+  {
+    // startOrStop is 1 if want to start file, 0 if want to stop play
+
+    File sound = new File("assets/" + file + ".wav");
+
+    try
+    {
+      Clip clip = AudioSystem.getClip();
+      clip.open(AudioSystem.getAudioInputStream(sound));
+      clip.start();
+    }
+    catch(Exception e)
+    {
+
+    }
   }
 }

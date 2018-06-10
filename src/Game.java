@@ -10,13 +10,19 @@ public class Game
 
     // Warning
 
-    if(totalPlayers.equalsIgnoreCase("1") || totalPlayers.equalsIgnoreCase("2") || totalPlayers.equalsIgnoreCase("3") || totalPlayers.equalsIgnoreCase("4"))
+    if(totalPlayers.equalsIgnoreCase("2") || totalPlayers.equalsIgnoreCase("3") || totalPlayers.equalsIgnoreCase("4"))
     {
-      System.out.println("\nWhen inputing player initials, use a maximum of two. Ex. For name 'Joe Biden', enter 'j'; enter actual words as 'word-j'");
+      System.out.println("\nWhen inputing player initials, use a maximum of two. Ex. For name 'Joe Biden', enter 'j'; enter word guess as 'word-j'");
     }
 
     // If there are more than 1 players, give each player a name
     // Recall that promptReply(String stringName) returns the string that was entered in, if it does not include sylabls
+    if(totalPlayers.equalsIgnoreCase("1"))
+    {
+      Player p1 = new Player("P1");
+
+      players.add(p1);
+    }
     if(totalPlayers.equalsIgnoreCase("2"))
     {
       String playerName1 = Interact.promptReply("\nFirst Player Initials?", 0);
@@ -63,41 +69,78 @@ public class Game
     return players;
   }
 
-  public static void analyzeGuess(List<String> matchingWords, String guessWithHyphen, List<Player> players)
+  public static void analyzeGuess(List<String> matchingWords, List<String> matchingWordsOriginal, String guessWithHyphen, List<Player> players, String word)
   {
-    // If the guess contains a player name, assign the player name to the Player 'player'
-    // If the guess syntax was not entered properly, output to consle an error (player is an object with empty parameters)
-    Player player = getPlayerThatGuessed(guessWithHyphen, players);
-
-    // Only continue to analyze guessWithHyphen if an actual player guessed it
-    if(player.getPlayerInitial().length() != 0)
+    if(guessWithHyphen.equals("--"))
     {
-      // Actual word the player guessed (without the hyphen)
-      String guess = getPlayerGuess(guessWithHyphen);
+      displayScore(players);
+    }
+    else if(guessWithHyphen.equals("-"))
+    {
+      System.out.println("Inputed string: '" + word + "'.");
+    }
+    else
+    {
+      // If the guess contains a player name, assign the player name to the Player 'player'
+      // If the guess syntax was not entered properly, output to consle an error (player is an object with empty parameters)
+      Player player = getPlayerThatGuessed(guessWithHyphen, players);
 
-      System.out.println("Before calling removeStringFromArray " + matchingWords.size());
-
-      // Remove value from array; if element was not in array; there is no difference in lengths of the arrays
-      List<String> mutMatchingWords = Sort.removeStringFromArray(matchingWords, guess);
-
-      System.out.println("Mutated after calling removeStringFromArray " + mutMatchingWords.size());
-      System.out.println("Original after caling removeStringFromArray " + matchingWords.size());
-
-      Boolean isArraysEqual = Manipulate.arrayListEqualSize(matchingWords, mutMatchingWords);
-
-      if(isArraysEqual == true)
+      // Only continue to analyze guessWithHyphen if an actual player guessed it
+      if(player.getPlayerInitial().length() != 0)
       {
-        System.out.println("Array is equal");
-        // Array lengths are the same, word was not found
-        wordNotFound(player.getPlayerInitial(), guess);
-      }
-      else if(isArraysEqual == false)
-      {
-        System.out.println("Arra is not equal");
-        // Array lengths are not equal, guess was removed!
-        wordFound(player.getPlayerInitial(), guess);
+        // Actual word the player guessed (without the hyphen)
+        String guess = getPlayerGuess(guessWithHyphen);
+
+        // If the input is formated correctly, test if the word exists in the array
+        doesWordExist(matchingWords, matchingWordsOriginal, guess, player);
 
       }
+    }
+  }
+
+  public static void doesWordExist(List<String> matchingWords, List<String> matchingWordsOriginal, String guess, Player player)
+  {
+    // Remove value from array; if element was not in array; there is no difference in lengths of the arrays
+    Boolean wordFoundInOriginal = Sort.wordFoundInArray(matchingWordsOriginal, guess);
+    Boolean wordFoundInModified = Sort.wordFoundInArray(matchingWords, guess);
+
+    matchingWords = Sort.removeElementFromArray(matchingWords, guess);
+
+    if(wordFoundInOriginal == false && wordFoundInModified == false)
+    {
+      // Word not found at all
+      wordNotFound(player.getPlayerInitial(), guess, player);
+    }
+    else if(wordFoundInOriginal == true && wordFoundInModified == false)
+    {
+      // Word found in original, but not the modified one (because word was already found)
+      wordAlreadyFound(player.getPlayerInitial(), guess, player);
+    }
+    else if(wordFoundInOriginal == true && wordFoundInModified == true)
+    {
+      // Word found in both, which means it exists and has not been already chosen
+      wordFound(player.getPlayerInitial(), guess, player);
+    }
+  }
+  public static void analyzeGuessSingle(List<String> matchingWords, List<String> matchingWordsOriginal, String guessWithHyphen, List<Player> players, String word)
+  {
+    if(guessWithHyphen.equals("--"))
+    {
+      displayScore(players);
+    }
+    else if(guessWithHyphen.equals("-"))
+    {
+      System.out.println("Inputed string: '" + word + "'.");
+    }
+    // If guess contains a hyphen and is not "--" or "-", is is an invelid query"
+    else if(guessWithHyphen.indexOf("-") != -1)
+    {
+      System.out.println("Do not use a hyphen in your answer unless you are checking score or inputed string");
+    }
+    else
+    {
+      // Word should only contain characters by this point (which is why we can use guessWithHyphen); players.get(0) works because with one player, there is one element of players list.
+      doesWordExist(matchingWords, matchingWordsOriginal, guessWithHyphen, players.get(0));
     }
   }
 
@@ -129,12 +172,14 @@ public class Game
       else if(initialThatGuessed.length() == 0)
       {
         // There is nothing after the hyphin, no initial
+        System.out.println("\nInitial not found");
         return invalidInput(2);
       }
     }
     // If hyphen was not found in array
     else if(hyphenIndex == -1)
     {
+      System.out.println("\nHyphen not found.\nAssuming 'j' is a valid initial and 'lorem' is the word to be guessed, enter input as such: 'lorem-j'.");
       return invalidInput(3);
     }
 
@@ -145,27 +190,29 @@ public class Game
   public static Player isInitialAPlayer(List<Player> players, String initialThatGuessed)
   {
     Boolean isAPlayerInitial = false;
-    int indexOfMathingPlayer = -1;
+    int indexOfMatchingPlayer = -1;
 
     for(int i = 0; i < players.size(); i++)
     {
       if(players.get(i).getPlayerInitial().equalsIgnoreCase(initialThatGuessed))
       {
-          indexOfMathingPlayer = i;
+          indexOfMatchingPlayer = i;
           isAPlayerInitial = true;
       }
     }
 
-    if(indexOfMathingPlayer != -1)
+    if(indexOfMatchingPlayer != -1)
     {
-      return players.get(indexOfMathingPlayer);
+      return players.get(indexOfMatchingPlayer);
     }
-    else if(indexOfMathingPlayer == -1)
+    else if(indexOfMatchingPlayer == -1)
     {
+      System.out.println("\nInitial '" + initialThatGuessed + "' not recognized as a player.");
       return invalidInput(5);
     }
 
     // Return an empty object is above code does not execute well
+    System.out.println("\nIf you see this, then something has gone terribly wrong.");
     return invalidInput(6);
   }
 
@@ -177,24 +224,41 @@ public class Game
 
   private static Player invalidInput(int errorNumber)
   {
-    System.out.println("\nSomething went wrong when processing your input. Please try again. Error " + errorNumber + ".");
+    //System.out.println("\nSomething went wrong when processing your input. Please try again. Error " + errorNumber + ".");
 
     // If there is an invalid input witih the word press, this method gets activated, and this return feeds into the return of the 'AnalyzeGuess' method
     return new Player();
   }
-  private static void wordNotFound(String playerInitial, String guess)
+  private static void wordNotFound(String playerInitial, String guess, Player player)
   {
     System.out.println("\nSorry, " + playerInitial + ". '" + guess + "' was not found.");
+    player.addGuess();
+    Interact.playSound("incorrect");
   }
 
-  private static void wordFound(String playerInitial, String guess)
+  private static void wordAlreadyFound(String playerInitial, String guess, Player player)
+  {
+    System.out.println("\nNice try, " + playerInitial + ". '" + guess + "' was already found.");
+    player.addGuess();
+    Interact.playSound("incorrect");
+  }
+
+  private static void wordFound(String playerInitial, String guess, Player player)
   {
     System.out.println("\nCongrats, " + playerInitial + "! '" + guess + "' was found!");
+    player.addGuess();
+    player.addRightGuess();
+    Interact.playSound("correct");
   }
 
-  private static void gameOver()
+  private static void displayScore(List<Player> players)
   {
-
+    System.out.println("");
+    // Want to display each person and his or her scores
+    for(Player player : players)
+    {
+      System.out.println(player.getPlayerInitial() + ": " + player.getPlayerRightGuesses() + " pts. of " + player.getPlayerTotalGuesses() + " total tries.");
+    }
   }
 
   public static Boolean arePlayerNameDuplicates(List<Player> players)
@@ -212,13 +276,17 @@ public class Game
           String playerInitialI = players.get(i).getPlayerInitial();
           String playerInitialJ = players.get(j).getPlayerInitial();
 
+          // if(players.get(i).getPlayerInitial().equalsIgnoreCase(players.get(j).getPlayerInitial())){} would be insane!
           if(playerInitialI.equalsIgnoreCase(playerInitialJ))
           {
-            System.out.println("Some initials are used twice. Please do not repeat player initials.");
             areDuplicates = true;
           }
         }
       }
+    }
+    if (areDuplicates == true)
+    {
+      System.out.println("\nSome initials are used twice. Please do not repeat player initials.");
     }
     return areDuplicates;
   }
