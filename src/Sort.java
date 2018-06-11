@@ -43,7 +43,7 @@ public class Sort
       }
 
     }
-    else if(sortType.equalsIgnoreCase("wwfLetterScore"))
+    else if(sortType.equalsIgnoreCase("wwfScore"))
     {
       while(!isSorted)
       {
@@ -281,13 +281,13 @@ public class Sort
   public static int lengthStepsIn(List<String> arrayList)
   {
     int stepsIn = 1;
-    Boolean isSorted = true;
+    //Boolean isSorted = true;
 
     for(int i = 0; i < arrayList.size() - 1; i++)
     {
       if(arrayList.get(i).length() > arrayList.get(i + 1).length())
       {
-        isSorted = false;
+        //isSorted = false;
       }
       else
       {
@@ -315,13 +315,13 @@ public class Sort
   public static int wffValueStepsIn(List<String> arrayList)
   {
     int stepsIn = 1;
-    Boolean isSorted = true;
+    //Boolean isSorted = true;
 
     for(int i = 0; i < arrayList.size() - 1; i++)
     {
       if(wordWordsFriendsValue(arrayList.get(i)) > wordWordsFriendsValue(arrayList.get(i + 1)))
       {
-        isSorted = false;
+        //isSorted = false;
       }
       else
       {
@@ -349,13 +349,13 @@ public class Sort
   public static int scrabbleValueStepsIn(List<String> arrayList)
   {
     int stepsIn = 1;
-    Boolean isSorted = true;
+    //Boolean isSorted = true;
 
     for(int i = 0; i < arrayList.size() - 1; i++)
     {
       if(wordScrabbleValue(arrayList.get(i)) > wordScrabbleValue(arrayList.get(i + 1)))
       {
-        isSorted = false;
+        //isSorted = false;
       }
       else
       {

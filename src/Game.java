@@ -8,8 +8,6 @@ public class Game
   {
     List<Player> players = new ArrayList<Player>();
 
-    // Warning
-
     if(totalPlayers.equalsIgnoreCase("2") || totalPlayers.equalsIgnoreCase("3") || totalPlayers.equalsIgnoreCase("4"))
     {
       System.out.println("\nWhen inputing player initials, use a maximum of two. Ex. For name 'Joe Biden', enter 'j'; enter word guess as 'word-j'");
@@ -71,13 +69,18 @@ public class Game
 
   public static void analyzeGuess(List<String> matchingWords, List<String> matchingWordsOriginal, String guessWithHyphen, List<Player> players, String word)
   {
+    // Recall there is an analyzeGuess for singleplayer with slightly different settings
     if(guessWithHyphen.equals("--"))
     {
       displayScore(players);
     }
     else if(guessWithHyphen.equals("-"))
     {
-      System.out.println("Inputed string: '" + word + "'.");
+      System.out.println("\nInputed string: '" + word + "'.");
+    }
+    else if(guessWithHyphen.equals("----"))
+    {
+      gameOver(players);
     }
     else
     {
@@ -122,15 +125,21 @@ public class Game
       wordFound(player.getPlayerInitial(), guess, player);
     }
   }
+
   public static void analyzeGuessSingle(List<String> matchingWords, List<String> matchingWordsOriginal, String guessWithHyphen, List<Player> players, String word)
   {
+    // Recall there is an analyzeGuess for multiplayer with slightly different settings
     if(guessWithHyphen.equals("--"))
     {
       displayScore(players);
     }
     else if(guessWithHyphen.equals("-"))
     {
-      System.out.println("Inputed string: '" + word + "'.");
+      System.out.println("\nInputed string: '" + word + "'.");
+    }
+    else if(guessWithHyphen.equals("----"))
+    {
+      gameOver(players);
     }
     // If guess contains a hyphen and is not "--" or "-", is is an invelid query"
     else if(guessWithHyphen.indexOf("-") != -1)
@@ -189,7 +198,6 @@ public class Game
 
   public static Player isInitialAPlayer(List<Player> players, String initialThatGuessed)
   {
-    Boolean isAPlayerInitial = false;
     int indexOfMatchingPlayer = -1;
 
     for(int i = 0; i < players.size(); i++)
@@ -197,7 +205,6 @@ public class Game
       if(players.get(i).getPlayerInitial().equalsIgnoreCase(initialThatGuessed))
       {
           indexOfMatchingPlayer = i;
-          isAPlayerInitial = true;
       }
     }
 
@@ -233,6 +240,7 @@ public class Game
   {
     System.out.println("\nSorry, " + playerInitial + ". '" + guess + "' was not found.");
     player.addGuess();
+    player.changePoints(-1);
     Interact.playSound("incorrect");
   }
 
@@ -248,7 +256,21 @@ public class Game
     System.out.println("\nCongrats, " + playerInitial + "! '" + guess + "' was found!");
     player.addGuess();
     player.addRightGuess();
+    player.addPoints(guess);
     Interact.playSound("correct");
+  }
+
+  public static void gameOver(List<Player> players)
+  {
+    System.out.println("\nEnding Results.");
+
+    // Want to display each person and his or her scores
+    for(Player player : players)
+    {
+      System.out.println(player.getPlayerInitial() + ": " + player.getPlayerRightGuesses() + " correct of " + player.getPlayerTotalGuesses() + " tries. " + player.getPoints() + " pts. total. " + (float) player.getPlayerRightGuesses() / player.getPlayerTotalGuesses() * 100 + "% success rate.");
+    }
+
+    System.out.println("\n" + Player.allPlayerGuesses + " guesses total. " + Player.allPoints + " pts. total.");
   }
 
   private static void displayScore(List<Player> players)
@@ -257,7 +279,7 @@ public class Game
     // Want to display each person and his or her scores
     for(Player player : players)
     {
-      System.out.println(player.getPlayerInitial() + ": " + player.getPlayerRightGuesses() + " pts. of " + player.getPlayerTotalGuesses() + " total tries.");
+      System.out.println(player.getPlayerInitial() + ": " + player.getPlayerRightGuesses() + " correct of " + player.getPlayerTotalGuesses() + " tries. " + player.getPoints() + " pts. total.");
     }
   }
 

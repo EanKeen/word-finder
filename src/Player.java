@@ -3,10 +3,14 @@ package src;
 public class Player
 {
   public static int allPlayerGuesses = 0;
-  public int totalGuesses = 0;
-  public int rightGuesses = 0;
-  public String initialWithDash;
-  public String initial;
+  private int totalGuesses = 0;
+  private int rightGuesses = 0;
+
+  public static int allPoints = 0;
+  private int points;
+
+  private String initialWithDash;
+  private String initial;
 
   public Player()
   {
@@ -32,6 +36,12 @@ public class Player
     allPlayerGuesses += 1;
   }
 
+  public void addPoints(String guess)
+  {
+    points += guess.length();
+    allPoints += guess.length();
+  }
+
   public String getPlayerInitial()
   {
     return initial;
@@ -45,5 +55,20 @@ public class Player
   public int getPlayerTotalGuesses()
   {
    return totalGuesses;
+  }
+
+  public int getPoints()
+  {
+    return points;
+  }
+
+  public int getAllPoints()
+  {
+    return allPoints;
+  }
+
+  public void changePoints(int value)
+  {
+    points += value;
   }
 }

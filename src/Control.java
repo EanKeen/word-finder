@@ -9,23 +9,24 @@ public class Control
 {
   public static void main(String[] args)
   {
-    System.out.println("\nWelcome to the word-finder Java program! This program serves two purposes. It returns an array of words related to an inputed word or string. Also, users can enter in a word, and guess the possible relationships to that word. The specific relationship is defined by the user on launch of the program. The former serves the utility function. the latter serves the game function.");
-
     // Start background music
     Interact.playSound("lobby");
+
+    System.out.println("\nWelcome to the word-finder Java program! This program serves two purposes. It returns an array of words related to an inputed word or string. Also, users can enter in a word, and guess the possible relationships to that word. The specific relationship is defined by the user on launch of the program. The former serves the utility function. the latter serves the game function.");
+
 
     // Ask if the user wants to play the game or utilize the utility
     String mainFunctionInput = Interact.promptReply("Would you like to launch the utility function or the game function? This option can only be choosen on program startup. (utility / game)", new String[]{"utility", "game"});
 
     // Both utility and game function will prompt which search tool to use
     String searchType = Interact.promptReply("\nWhich word search tool would you like to utilitze? This can only be chosen once per run of the program. (less / equal / greater) \n"
-    + "[Less]: Find words that contain only the characters of the inputed string (similar to finding words from tiles in a multiplayer crossword game)\n"
+    + "[Less]: Find words that contain only the characters of the inputted string (similar to finding words from tiles in a multiplayer crossword game)\n"
     + "Ex. 'apple' -> ['app', 'pal'] (NOT 'pans' because no 's' in 'apple').\n"
 
-    + "[Equal]: Find words that contain the exact same characters as the inputed string.\n"
+    + "[Equal]: Find words that contain the exact same characters as the inputted string.\n"
     + "Ex. 'apple' -> ['appel'] \n"
 
-    + "[Greater]: Find words longer than the inputed string that contain all the characters of the inputed string.\n"
+    + "[Greater]: Find words longer than the inputted string that contain all the characters of the inputted string.\n"
     + "Ex. 'apple' -> ['applesause', 'apples']"
     , new String[]{"less", "equal", "greater"});
 
@@ -49,14 +50,12 @@ public class Control
       // Manipulates the array by deleting or only allowing certain strings from array elements
       matchingWords = Manipulate.manipulateArray(matchingWords);
 
-      String sortType = Interact.promptReply("\nHow would you like to sort the array? (length, wwfLetterScore, scrabbleScore)", new String[]{"length", "wwfLetterScore", "scrabbleScore"});
+      String sortType = Interact.promptReply("\nHow would you like to sort the array? (length, wwfScore, scrabbleScore)", new String[]{"length", "wwfScore", "scrabbleScore"});
 
       matchingWords = Sort.sortArray(matchingWords, sortType);
 
       System.out.println("\nThe following is the sorted array");
       Interact.outputArrayEnglish(new String[]{}, matchingWords);
-
-
     }
     else if(mainFunctionInput.equalsIgnoreCase("game"))
     {
@@ -94,7 +93,7 @@ public class Control
       while(!gameOver)
       {
         // Guess a word in array
-        String guessWithHyphen = Interact.promptReply("\nEnter a word that matches the search tool you selected. '-' to show inputed string. '--' to show score.", 1);
+        String guessWithHyphen = Interact.promptReply("\nEnter a word that matches the search tool you selected. '-' to show inputed string. '--' to show score. '----' to quit.", 1);
 
         // Test if guess includes a playername; if so, will remove word from array and add a point to the player
         if(!totalPlayers.equalsIgnoreCase("1"))
