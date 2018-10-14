@@ -10,7 +10,8 @@ public class Control
   public static void main(String[] args)
   {
     // Start background music
-    Interact.playSound("lobby");
+    Interact.playSound("results");
+    // Interact.playSound("lobby");
 
     System.out.println("\nWelcome to the word-finder Java program! This program serves two purposes. It returns an array of words related to an inputed word or string. Also, users can enter in a word, and guess the possible relationships to that word. The specific relationship is defined by the user on launch of the program. The former serves the utility function. the latter serves the game function.");
 
@@ -98,13 +99,14 @@ public class Control
         // Test if guess includes a playername; if so, will remove word from array and add a point to the player
         if(!totalPlayers.equalsIgnoreCase("1"))
         {
-          Game.analyzeGuess(matchingWords, matchingWordsOriginal, guessWithHyphen, players, word);
+          gameOver = Game.analyzeGuess(matchingWords, matchingWordsOriginal, guessWithHyphen, players, word);
         }
         else
         {
-          Game.analyzeGuessSingle(matchingWords, matchingWordsOriginal, guessWithHyphen, players, word);
+          gameOver = Game.analyzeGuessSingle(matchingWords, matchingWordsOriginal, guessWithHyphen, players, word);
         }
       }
+      Interact.playSound("results");
     }
   }
 }

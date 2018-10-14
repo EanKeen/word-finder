@@ -243,7 +243,7 @@ public class Interact
     }
     catch(Exception e)
     {
-
+      System.out.println(e);
     }
   }
 }

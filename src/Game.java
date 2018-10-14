@@ -67,7 +67,7 @@ public class Game
     return players;
   }
 
-  public static void analyzeGuess(List<String> matchingWords, List<String> matchingWordsOriginal, String guessWithHyphen, List<Player> players, String word)
+  public static Boolean analyzeGuess(List<String> matchingWords, List<String> matchingWordsOriginal, String guessWithHyphen, List<Player> players, String word)
   {
     // Recall there is an analyzeGuess for singleplayer with slightly different settings
     if(guessWithHyphen.equals("--"))
@@ -81,6 +81,7 @@ public class Game
     else if(guessWithHyphen.equals("----"))
     {
       gameOver(players);
+      return true;
     }
     else
     {
@@ -99,6 +100,7 @@ public class Game
 
       }
     }
+    return false;
   }
 
   public static void doesWordExist(List<String> matchingWords, List<String> matchingWordsOriginal, String guess, Player player)
@@ -126,7 +128,7 @@ public class Game
     }
   }
 
-  public static void analyzeGuessSingle(List<String> matchingWords, List<String> matchingWordsOriginal, String guessWithHyphen, List<Player> players, String word)
+  public static Boolean analyzeGuessSingle(List<String> matchingWords, List<String> matchingWordsOriginal, String guessWithHyphen, List<Player> players, String word)
   {
     // Recall there is an analyzeGuess for multiplayer with slightly different settings
     if(guessWithHyphen.equals("--"))
@@ -140,6 +142,7 @@ public class Game
     else if(guessWithHyphen.equals("----"))
     {
       gameOver(players);
+      return true;
     }
     // If guess contains a hyphen and is not "--" or "-", is is an invelid query"
     else if(guessWithHyphen.indexOf("-") != -1)
@@ -151,6 +154,7 @@ public class Game
       // Word should only contain characters by this point (which is why we can use guessWithHyphen); players.get(0) works because with one player, there is one element of players list.
       doesWordExist(matchingWords, matchingWordsOriginal, guessWithHyphen, players.get(0));
     }
+    return false;
   }
 
   public static Player getPlayerThatGuessed(String guessWithHyphen, List<Player> players)
