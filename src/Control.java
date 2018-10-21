@@ -10,7 +10,6 @@ public class Control
   public static void main(String[] args)
   {
     // Start background music
-    Interact.playSound("results");
     // Interact.playSound("lobby");
 
     System.out.println("\nWelcome to the word-finder Java program! This program serves two purposes. It returns an array of words related to an inputed word or string. Also, users can enter in a word, and guess the possible relationships to that word. The specific relationship is defined by the user on launch of the program. The former serves the utility function. the latter serves the game function.");
@@ -107,6 +106,12 @@ public class Control
         }
       }
       Interact.playSound("results");
+      try {
+        Thread.sleep(9500);
+      }
+      catch(Exception e) {
+        System.out.println(e);
+      }
     }
   }
 }

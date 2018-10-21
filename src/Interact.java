@@ -229,10 +229,7 @@ public class Interact
   }
 
   public static void playSound(String file)
-
   {
-    // startOrStop is 1 if want to start file, 0 if want to stop play
-
     File sound = new File("assets/" + file + ".wav");
 
     try
