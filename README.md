@@ -12,7 +12,7 @@
 * User guesses as many possible relationships as possible
 * User-generated results compared witht the actual total number of relationships. Show all relationships missed by the user
 ## Other Information :information_source:
-* Inside /assets, unzip the lobby.7z.001, etc. if you want to hear the loby sound
+* Inside /assets, unzip the lobby.7z.001, etc. if you want to hear the lobby sound
 * Slideshow presentation files are at root of directory
 
 ## How to Use :computer:
