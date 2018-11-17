@@ -11,8 +11,10 @@
 * Generate words that have a relationship to the entered string (there are three possible relationships programmed for)
 * User guesses as many possible relationships as possible
 * User-generated results compared witht the actual total number of relationships. Show all relationships missed by the user
-## Other Information
-* 
+## Other Information :information_source:
+* Inside /assets, unzip the lobby.7z.001, etc. if you want to hear the loby sound
+* Slideshow presentation files are at root of directory
+
 ## How to Use :computer:
 #### Bash
 ```bash
