@@ -16,13 +16,13 @@
 * Slideshow presentation files are at root of directory
 
 ## How to Use :computer:
-#### Bash
+### Bash
 ```bash
 $ git clone https://www.github.com/eankeen/word-finder
 $ cd ./word-finder
 $ ./run.sh
 ```
-#### Powershell / Cmd
+### Powershell / Cmd
 ```bash
 $ git clone https://www.github.com/eankeen/word-finder
 $ cd ./word-finder/src
@@ -30,7 +30,7 @@ $ javac *.java
 $ cd ..
 $ java src.Control
 ```
-### About the Shell Script
+## About the Shell Script :shell:
 * `./run.sh -rem` removes all .class files from src directory if at least one is present
 * `./run.sh -com` compiles all .class files in the src directory, if all .class files are present. If not, will alert user that not all .class files are present
 *  `./run.sh -run` runs the program
