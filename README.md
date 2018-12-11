@@ -1,7 +1,7 @@
 # Word Finder
 ## Utility Component :wrench:
 * Enter in any string with alphanumeric characters
-* Generate words that have a relationship to the entered string (there are three possible relationships programmed for)
+* Generate words that have a relationship to the entered string (there are three possible relationships)
 * Words with a relationship are structured in an array
 * Filter (manipulate) array by removing components that have or don't have a specific combination of characters (user-chosen)
 * Sort resulting array by length of word or word value in popular tile-based multiplayer crossword games
