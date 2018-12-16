@@ -25,7 +25,7 @@ then
   fi
 
 else
-#Default behavior is to delete class files, then replace them (if class files exist or on successfull run)
+# Default behavior is to delete class files, then replace them (if class files exist or on successfull run)
   # Removes all class files
   if [[ -e Control.class || -e Generator.class || -e Interact.class || -e Manipulate.class || -e Sort.class || -e Game.class || -e Player.class ]];
   then
